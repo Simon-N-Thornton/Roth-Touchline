@@ -20,11 +20,11 @@ IP address: xxx.xxx.xxx.xxx
 | STM-BL                   | 1.20              | MOdule version |  
 | hw.IP                    | xxx.xxx.xxx.xxx   | IP Address of Device |  
 | hw.NM                    | 255.255.255.0     | Netmask of IP |  
-| hw.Addr                  | 5C-AB-23-DF-FF-FA | MAC address of Interface |  
+| hw.Addr                  | 5C-AB-23-DF-C9-FA | MAC address of Interface |  
 | hw.DNS1                  | dd1.dd1.dd1.dd1   | IP address of DNS entry #1 |  
 | hw.DNS2                  | dd2.dd3.dd2.dd2   | IP address of DNS entry #2 |  
 | hw.GW                    | zzz.zzz.zzz.zzz   | Default route |  
-| hw.HostName              | ROTH-DFFFFA       | Hostname (default ROTH-last_6_digits_of_MAC |  
+| hw.HostName              | ROTH-DFC9FA       | Hostname (default ROTH-last_6_digits_of_MAC) |  
 | totalNumberOfDevices     | 4                 | Number of thermostats attached, 4 indicates thermostats 0-3 |  
 | numberOfSlaveControllers | 0                 | Number of slave controllers attach |  
 | VPI.href                 | http://myroth.ininet.ch/remote/t_uniqueID/ | URL of remote access point, see uniqueID below |  

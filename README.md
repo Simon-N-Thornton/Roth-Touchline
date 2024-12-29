@@ -1,13 +1,15 @@
 # RothTouchline
 
-Scripts and Information about the Roth Touchline range of underfloor heating controllers.
+Scripts and Information about the Roth Touchline range of underfloor heating controllers.  
+
+Data from the controller can be accessed using the web interface endpoints readVal.cgi and writeVal.cgi. e.g.  
 
 Read  Value: http://xxx.xxx.xxx.xxx/readVal.cgi?variable  
-Write Value: http://xxx.xxx.xxx.xxx/writwVal.cgi=variable  
+Write Value: http://xxx.xxx.xxx.xxx/writwVal.cgi?variable=value  
   
 IP address: xxx.xxx.xxx.xxx  
   
-**Device Parameters**
+**Device Parameters**  
   
 | Variable                 | Values            | Description |  
 | ---                      | ---               | --- | 
@@ -31,8 +33,9 @@ IP address: xxx.xxx.xxx.xxx
 | Status                   | Server: Roth/1.0 (powered by SpiderControl TM), CGI=0|ILR=0, V.1.0, ILR2=0, V.2.00, ILR3=1, V.1.00 | Status of webserver components |  
 
 
-** Thermostat parameters**
-These parameters
+** Thermostat parameters**  
+These parameters can be updated using the writeVal.cgi=variable=value  
+
 Gx indicates the thermostat index (0 to totalNumberofDevices-1)  
 
 | Variable               | Values            | Description |  
@@ -49,11 +52,11 @@ Gx indicates the thermostat index (0 to totalNumberofDevices-1)
 | Gx.kurzID              | 1                 | ??? Same for all thermostats |  
 | Gx.ownerKurzID         | 69                | ??? Same for all thermostats |  
 
-** Controller parameters**
+** Controller parameters**  
 
 | Variable                 | Values            | Description |  
 | ---                      | ---               | --- | 
-| R0.DateTime              | EPOCH datetime    | Date/time since 1970 e.g.    Sat Dec 30 15:33:54 CET 2023
+| R0.DateTime              | EPOCH datetime    | Date/time since 1970 e.g. 1703956882 or " Sat Dec 30 15:33:54 CET 2023", can be updated |  
 | R0.ErrorCode             | 0                 | Current error |  
 | R0.OPModeRegler          | 0                 | ??? |  
 | R0.Safety                | 0                 | ??? |  
@@ -62,4 +65,4 @@ Gx indicates the thermostat index (0 to totalNumberofDevices-1)
 | R0.WeekProgWarn          | 1                 | ??? |  
 | R0.kurzID                | 69                | same as Gx.kurzID
 | R0.numberOfPairedDevices | 4                | Number of paired devices, same as 'totalNumberOfDevices' |  
-| R0.uniqueID              | 53FF710649895434 | Unique identifier
+| R0.uniqueID              | 53FF710649895434 | Unique identifier, used to construct VPI.href | 

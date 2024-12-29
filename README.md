@@ -84,11 +84,11 @@ Gx indicates the thermostat index (0 to totalNumberofDevices-1)
 | Purpose | cmdline |  
 | ---     | --- |  
 | Read current date/time | ```curl http://xxx.xxx.xxx.xxx/readVal.cgi?R0.DateTime``` |  
-| Set Date/Time | curl http://xxx.xxx.xxx.xxx/writeVal.cgi?R0.DateTime=$(date +%s) |  
-| Set name of thermostat 0 | curl http://xxx.xxx.xxx.xxx/writeVal.cgi?G0.name=My_Thermostat |  
-| Set Temp of thermostat 0 to 20.54 C | curl http://xxx.xxx.xxx.xxx/writeVal.cgi?G0.SollTemp=2054 |  
-| Read Temp of thermostat 0 | curl http://xxx.xxx.xxx.xxx/readVal.cgi?G0.SollTemp |  
-| Set thermostat 0 mode to night | curl http://xxx.xxx.xxx.xxx/writeVal.cgi?G0.OPMode=1 |  
+| Set Date/Time | ```curl http://xxx.xxx.xxx.xxx/writeVal.cgi?R0.DateTime=$(date +%s)``` |  
+| Set name of thermostat 0 | ```curl http://xxx.xxx.xxx.xxx/writeVal.cgi?G0.name=My_Thermostat``` |  
+| Set Temp of thermostat 0 to 20.54 C | ```curl http://xxx.xxx.xxx.xxx/writeVal.cgi?G0.SollTemp=2054``` |  
+| Read Temp of thermostat 0 | ```curl http://xxx.xxx.xxx.xxx/readVal.cgi?G0.SollTemp``` |  
+| Set thermostat 0 mode to night | ```curl http://xxx.xxx.xxx.xxx/writeVal.cgi?G0.OPMode=1``` |  
 
 ### Locating API endpoints
 The easiest way to find the API endpoints for the older controllers, not the SL version, is to download the firmware, unpack it and examine the file "Roth.tcr".  
@@ -140,11 +140,11 @@ e.g.
 
 | cmd line | Description |  
 | ---      | ---         |  
-| rothread.sh -h | Show help |  
-| rothread.sh -s | Show status of all variables |  
-| rothread.sh -w G0.OPMode=1 | Set Thermostat #0 to Night mode |  
-| rothread.sh -w G1.SollTemp=19.54 | Set required Temperature to 19.54 on Thermostat #2 |  
-| rothread.sh -w R0.Datetime=$(date +%s) | Set controller Date/Time to current on Linux |  
+| ```rothread.sh -h``` | Show help |  
+| ```rothread.sh -s``` | Show status of all variables |  
+| ```rothread.sh -w G0.OPMode=1``` | Set Thermostat #0 to Night mode |  
+| ```rothread.sh -w G1.SollTemp=19.54``` | Set required Temperature to 19.54 on Thermostat #2 |  
+| ```rothread.sh -w R0.Datetime=$(date +%s)``` | Set controller Date/Time to current on Linux |  
 
 ### Roth Touchline SL API
 The firmware file format for the newer Touchline SL controllers has a different format to the older Touchline BL/PL controllers. The file appears to be encoded and does not reveal anything about the internal contents.  

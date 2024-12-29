@@ -1,7 +1,14 @@
-# RothTouchline
+# RothTouchline Heating controller
 
-Scripts and Information about the Roth Touchline range of underfloor heating controllers.  
 
+### Background
+Roth make a series of controllers for underfloor heating, the older versions only support a wired ethernet control port, newer versions support wireless. These are coupled with wireless (not WiFI) thermostats for control, each controller can have multiple thermostats (one per room).  The older versions have a web interface based on a java jnlp, which unfortunately does not work on modern browsers as the Java web launch feature has been removed. For those with Android or IoS devices a Touchline application exists to allow you to set the thermostats remotely. My challenge was to integrate this heating controller into my home assistant environment.
+
+### Network
+To connect the wired-only Roth controller I used a Vonets VAR11N_300 Wireless/Ethernet bridge, which is a matchbox sized device.
+
+
+### API Interface
 Data from the controller can be accessed using the web interface endpoints readVal.cgi and writeVal.cgi. e.g.  
 
 Read  Value: http://xxx.xxx.xxx.xxx/readVal.cgi?variable  
@@ -75,3 +82,41 @@ Gx indicates the thermostat index (0 to totalNumberofDevices-1)
 | Set Temp of thermostat 0 to 20.54 C | curl http://xxx.xxx.xxx.xxx/writeVal.cgi?G0.SollTemp=2054 |  
 | Read Temp of thermostat 0 | curl http://xxx.xxx.xxx.xxx/readVal.cgi?G0.SollTemp |  
 | Set thermostat 0 mode to night | curl http://xxx.xxx.xxx.xxx/writeVal.cgi?G0.OPMode=1 |  
+
+### Locating API endpoints
+The easiest way to find the API endpoints for the older controller (not the SL version) is to download the firmware, unpack it and examine the file "Roth.tcr".  
+
+Source: https://www.roth-uk.com/support/software-and-firmware-updates  
+
+This file contains a list of the (potential) API calls that can be used with readVal.cgi and writeVal.cgi calls. Not all of these are actually present in the Touchline build and return a 404 error when called.  
+
+```
+CD.reset;CD.reset; ; ; ; ; ; ; ; ; ;
+CD.save;CD.save; ; ; ; ; ; ; ; ; ;
+CD.submit;CD.submit; ; ; ; ; ; ; ; ; ;
+CD.submit.err;CD.submit.err; ; ; ; ; ; ; ; ; ;
+CD.uname;CD.uname; ; ; ; ; ; ; ; ; ;
+CD.upass;CD.upass; ; ; ; ; ; ; ; ; ;
+CD.ureg;CD.ureg; ; ; ; ; ; ; ; ; ;
+G#CO_myGx#.TempSIUnit;G#CO_myGx#.TempSIUnit; ; ; ; ; ; ; ; ; ;
+G#CO_myGx#.WeekProg;G#CO_myGx#.WeekProg; ; ; ; ; ; ; ; ; ;
+G0+#COFF_devicePageOffset#.TempSIUnit;G0+#COFF_devicePageOffset#.TempSIUnit; ; ; ; ; ; ; ; ; ;
+G0+@COFF_configPageOffset@.kurzID;G0+@COFF_configPageOffset@.kurzID; ; ; ; ; ; ; ; ; ;
+G0+@COFF_configPageOffset@.name;G0+@COFF_configPageOffset@.name; ; ; ; ; ; ; ; ; ;
+.
+.
+R0.DateTime;R0.DateTime; ; ;Int; ; ; ; ; ; ;
+R0.ErrorCode;R0.ErrorCode; ; ; ; ; ; ; ; ; ;
+R0.OPModeRegler;R0.OPModeRegler; ; ; ; ; ; ; ; ; ;
+R0.Safety;R0.Safety; ; ; ; ; ; ; ; ; ;
+R0.SystemStatus;R0.SystemStatus; ; ; ; ; ; ; ; ; ;
+R0.Taupunkt;R0.Taupunkt; ; ; ; ; ; ; ; ; ;
+R0.WeekProgWarn;R0.WeekProgWarn; ; ; ; ; ; ; ; ; ;
+R0.kurzID;R0.kurzID; ; ; ; ; ; ; ; ; ;
+R0.numberOfPairedDevices;R0.numberOfPairedDevices; ; ; ; ; ; ; ; ; ;
+.
+.
+
+```
+
+

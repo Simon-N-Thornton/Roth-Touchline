@@ -4,6 +4,8 @@
 ### Background
 Roth make a series of controllers for underfloor heating, the older versions only support a wired ethernet control port, newer versions support wireless. These are coupled with wireless (not WiFI) thermostats for control, each controller can have multiple thermostats (one per room).  The older versions have a web interface based on a java jnlp, which unfortunately does not work on modern browsers as the Java web launch feature has been removed. For those with Android or IoS devices a Touchline application exists to allow you to set the thermostats remotely. My challenge was to integrate this heating controller into my home assistant environment.
 
+![alt text](https://www.roth-uk.com/fileadmin/user_upload/Roth_North_Europe/Images_for_Roth_North_Europe/Danmark/Produkter_images/Touchline/Touchline_kontrol_enhed_uden_LAN.jpg "Roth Touchline PL")
+
 ### Network
 To connect the wired-only Roth controller I used a Vonets VAR11N_300 Wireless/Ethernet bridge, which is a matchbox sized device.
 
@@ -85,6 +87,7 @@ Gx indicates the thermostat index (0 to totalNumberofDevices-1)
 
 ### Locating API endpoints
 The easiest way to find the API endpoints for the older controller (not the SL version) is to download the firmware, unpack it and examine the file "Roth.tcr".  
+
 ![alt text](https://www.roth-uk.com/fileadmin/user_upload/Roth_North_Europe/Images_for_Roth_North_Europe/UK/Images/Support/Firmware/Kompatibilitetsskema_Touchline_firmware_alle_sprog_20191007_UK_v2.jpg "Touchline controllers")
 
 Source: https://www.roth-uk.com/support/software-and-firmware-updates  

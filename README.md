@@ -7,8 +7,8 @@ IP                       :      192.168.5.19
 
 **Device Parameters**
 
-| Variable               | Values            | Description                           |  
-| ---                    | ---               | ---                                   | 
+| Variable               | Values            | Description |  
+| ---                    | ---               | --- | 
 | CD.name                |                   | Device name (only certain FW versions |  
 | CD.upass               | 1234              | User interface password (default 1234) |  
 | STELL-APP              | 1.42              | Internal Version number (RO) |  
@@ -34,57 +34,30 @@ IP                       :      192.168.5.19
 Gx indicates the thermostat index (0 to totalNumberofDevices-1)  
 
 | Variable               | Values            | Description |  
-| G0.name                | <Whatever>        | Name of thermostat, if set |  
-G0.RaumTemp              :      20.94
-G0.SollTemp              :      20.00
-G0.SollTempMaxVal        :      22.00
-G0.SollTempMinVal        :      20.00
-G0.TempSIUnit            :      0
-G0.WeekProgEna           :      1
-G0.OPMode                :      0       Normal
-G0.OPModeEna             :      1
-G0.kurzID                :      1
-G0.ownerKurzID           :      69
-G1.name                  :      Living Room
-G1.RaumTemp              :      20.21
-G1.SollTemp              :      19.50
-G1.SollTempMaxVal        :      30.00
-G1.SollTempMinVal        :      05.00
-G1.TempSIUnit            :      0
-G1.WeekProgEna           :      1
-G1.OPMode                :      0       Normal
-G1.OPModeEna             :      1
-G1.kurzID                :      2
-G1.ownerKurzID           :      69
-G2.name                  :      Hall
-G2.RaumTemp              :      20.45
-G2.SollTemp              :      20.00
-G2.SollTempMaxVal        :      30.00
-G2.SollTempMinVal        :      05.00
-G2.TempSIUnit            :      0
-G2.WeekProgEna           :      1
-G2.OPMode                :      0       Normal
-G2.OPModeEna             :      1
-G2.kurzID                :      3
-G2.ownerKurzID           :      69
-G3.name                  :      Downstairs Bathroom
-G3.RaumTemp              :      19.42
-G3.SollTemp              :      18.00
-G3.SollTempMaxVal        :      30.00
-G3.SollTempMinVal        :      05.00
-G3.TempSIUnit            :      0
-G3.WeekProgEna           :      1
-G3.OPMode                :      0       Normal
-G3.OPModeEna             :      1
-G3.kurzID                :      4
-G3.ownerKurzID           :      69
-R0.DateTime              :      Sat Dec 30 15:33:54 CET 2023
-R0.ErrorCode             :      0
-R0.OPModeRegler          :      0
-R0.Safety                :      0
-R0.SystemStatus          :      0
-R0.Taupunkt              :      0
-R0.WeekProgWarn          :      1
-R0.kurzID                :      69
-R0.numberOfPairedDevices :      4
-R0.uniqueID              :      53FF71064989495318460287
+| ---                    | ---               | --- | 
+| Gx.name                | <Whatever>        | Name of thermostat, if set |  
+| Gx.RaumTemp            | 2094              | Room temperature, 20.94 |  
+| Gx.SollTemp            | 2000              | Room set temperature. 20.00 |  
+| Gx.SollTempMaxVal      | 2600              | Max temperature allowed for SollTemp |  
+| Gx.SollTempMinVal      | 1600              | Min temperature allowed for SollTemp |  
+| Gx.TempSIUnit          | 0                 | Temperature scale, 0=C, 1=F |  
+| Gx.WeekProgEna         | 1                 | Weekly mode enabled |  
+| Gx.OPMode              | 0-2               | Operation Mode: 0=Normal, 1=Night, 2=Vacation |  
+| Gx.OPModeEna           | 0-1               | Thermostate enabled (1) or disabled (0) |  
+| Gx.kurzID              | 1                 | ??? Same for all thermostats |  
+| Gx.ownerKurzID         | 69                | ??? Same for all thermostats |  
+
+** Controller parameters**
+
+| Variable                 | Values            | Description |  
+| ---                      | ---               | --- | 
+| R0.DateTime              | EPOCH datetime    | Date/time since 1970 e.g.    Sat Dec 30 15:33:54 CET 2023
+| R0.ErrorCode             | 0                 | Current error |  
+| R0.OPModeRegler          | 0                 | ??? |  
+| R0.Safety                | 0                 | ??? |  
+| R0.SystemStatus          | 0                 | System status, 0=off, 1=running |  
+| R0.Taupunkt              | 0                 | ??? |  
+| R0.WeekProgWarn          | 1                 | ??? |  
+| R0.kurzID                | 69                | same as Gx.kurzID
+| R0.numberOfPairedDevices | 4                | Number of paired devices, same as 'totalNumberOfDevices' |  
+| R0.uniqueID              | 53FF710649895434 | Unique identifier

@@ -73,4 +73,5 @@ Gx indicates the thermostat index (0 to totalNumberofDevices-1)
 | Set Date/Time | curl http://xxx.xxx.xxx.xxx/writeVal.cgi?R0.DateTime=$(date +%s) |  
 | Set name of thermostat 0 | curl http://xxx.xxx.xxx.xxx/writeVal.cgi?G0.name=My_Thermostat |  
 | Set Temp of thermostat 0 to 20.54 C | curl http://xxx.xxx.xxx.xxx/writeVal.cgi?G0.SollTemp=2054 |  
+| Read Temp of thermostat 0 | curl http://xxx.xxx.xxx.xxx/readVal.cgi?G0.SollTemp |  
 | Set thermostat 0 mode to night | curl http://xxx.xxx.xxx.xxx/writeVal.cgi?G0.OPMode=1 |  

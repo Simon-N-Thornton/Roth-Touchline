@@ -131,7 +131,10 @@ Note: the '+#COFF_devicePageOffset#' translates into the index of the thermostat
 
 ### API Script
 The sum of all this has been captured in a bash script called 'rothread.sh' that 
-- Allows entry of temperatures 
+- Allows entry of temperatures in dsecimal x.y format i.e. 18.54 instead of 1854
+- Implements a status print of all variables
+- Logs the output to files in /var/tmp
+- Builds an arrays of field names/values to allow this to be called from other scripts
 
 e.g.
 
@@ -142,4 +145,3 @@ e.g.
 | rothread.sh -w G0.OPMode=1 | Set Thermostat #0 to Night mode |  
 | rothread.sh -w G1.SollTemp=19.54 | Set required Temperature to 19.54 on Thermostat #2 |  
 | rothread.sh -w R0.Datetime=$(date +%s) | Set controller Date/Time to current on Linux |  
-

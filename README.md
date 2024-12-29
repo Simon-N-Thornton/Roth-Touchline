@@ -9,7 +9,7 @@ Write Value: http://xxx.xxx.xxx.xxx/writwVal.cgi?variable=value
   
 IP address: xxx.xxx.xxx.xxx  
   
-**Device Parameters**  
+## Device Parameters  
   
 | Variable                 | Values            | Description |  
 | ---                      | ---               | --- | 
@@ -44,7 +44,7 @@ IP address: xxx.xxx.xxx.xxx
 | R0.uniqueID              | 53FF710649895434 | Unique identifier, used to construct VPI.href | 
 
 
-**Thermostat parameters**  
+## Thermostat parameters  
 These parameters can be updated using the writeVal.cgi=variable=value  
 
 Gx indicates the thermostat index (0 to totalNumberofDevices-1)  

@@ -85,6 +85,7 @@ Gx indicates the thermostat index (0 to totalNumberofDevices-1)
 
 ### Locating API endpoints
 The easiest way to find the API endpoints for the older controller (not the SL version) is to download the firmware, unpack it and examine the file "Roth.tcr".  
+![alt text](https://www.roth-uk.com/fileadmin/user_upload/Roth_North_Europe/Images_for_Roth_North_Europe/UK/Images/Support/Firmware/Kompatibilitetsskema_Touchline_firmware_alle_sprog_20191007_UK_v2.jpg "Touchline controllers")
 
 Source: https://www.roth-uk.com/support/software-and-firmware-updates  
 

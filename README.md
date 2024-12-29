@@ -31,6 +31,17 @@ IP address: xxx.xxx.xxx.xxx
 | VPI.state                | 99                | Remote access point status |  
 | isMaster                 | 1                 | Is this a master or slave (push master button for this to work) |  
 | Status                   | Server: Roth/1.0 (powered by SpiderControl TM), CGI=0|ILR=0, V.1.0, ILR2=0, V.2.00, ILR3=1, V.1.00 | Status of webserver components |  
+|                          |                   |  
+| R0.DateTime              | EPOCH datetime    | Date/time since 1970 e.g. 1703956882 or " Sat Dec 30 15:33:54 CET 2023", can be updated |  
+| R0.ErrorCode             | 0                 | Current error |  
+| R0.OPModeRegler          | 0                 | ??? |  
+| R0.Safety                | 0                 | ??? |  
+| R0.SystemStatus          | 0                 | System status, 0=off, 1=running |  
+| R0.Taupunkt              | 0                 | ??? |  
+| R0.WeekProgWarn          | 1                 | ??? |  
+| R0.kurzID                | 69                | same as Gx.kurzID
+| R0.numberOfPairedDevices | 4                | Number of paired devices, same as 'totalNumberOfDevices' |  
+| R0.uniqueID              | 53FF710649895434 | Unique identifier, used to construct VPI.href | 
 
 
 ** Thermostat parameters**  
@@ -51,18 +62,3 @@ Gx indicates the thermostat index (0 to totalNumberofDevices-1)
 | Gx.OPModeEna           | 0-1               | Thermostate enabled (1) or disabled (0) |  
 | Gx.kurzID              | 1                 | ??? Same for all thermostats |  
 | Gx.ownerKurzID         | 69                | ??? Same for all thermostats |  
-
-** Controller parameters**  
-
-| Variable                 | Values            | Description |  
-| ---                      | ---               | --- | 
-| R0.DateTime              | EPOCH datetime    | Date/time since 1970 e.g. 1703956882 or " Sat Dec 30 15:33:54 CET 2023", can be updated |  
-| R0.ErrorCode             | 0                 | Current error |  
-| R0.OPModeRegler          | 0                 | ??? |  
-| R0.Safety                | 0                 | ??? |  
-| R0.SystemStatus          | 0                 | System status, 0=off, 1=running |  
-| R0.Taupunkt              | 0                 | ??? |  
-| R0.WeekProgWarn          | 1                 | ??? |  
-| R0.kurzID                | 69                | same as Gx.kurzID
-| R0.numberOfPairedDevices | 4                | Number of paired devices, same as 'totalNumberOfDevices' |  
-| R0.uniqueID              | 53FF710649895434 | Unique identifier, used to construct VPI.href | 

@@ -7,7 +7,8 @@ IP                       :      192.168.5.19
 
 **Device Parameters**
 
-| Variable               | Values            | Description |  
+| Variable               | Values            | Description                           |  
+| ---                    | ---               | ---                                   | 
 | CD.name                |                   | Device name (only certain FW versions |  
 | CD.upass               | 1234              | User interface password (default 1234) |  
 | STELL-APP              | 1.42              | Internal Version number (RO) |  

@@ -7,27 +7,33 @@ IP                       :      192.168.5.19
 
 **Device Parameters**
 
-| Variable               | Values           | Description |
-| CD.name                |                  | Device name (only certain FW versions |
-| CD.upass               |: 1234            | User interface password (default 1234) |
+| Variable               | Values            | Description |  
+| CD.name                |                   | Device name (only certain FW versions |  
+| CD.upass               | 1234              | User interface password (default 1234) |  
+| STELL-APP              | 1.42              | Internal Version number (RO) |  
+| STELL-BL               | 1.20              | Module version |  
+| STM-BL                 | 1.20              | MOdule version |  
+| hw.IP                  | 192.168.5.19      | IP Address of Device |  
+| hw.NM                  | 255.255.255.0     | Netmask of IP |  
+| hw.Addr                | 5C-C2-13-00-D8-18 | MAC address of Interface |  
+| hw.DNS1                | 192.168.5.1       | IP address of DNS entry #1 |  
+| hw.DNS2                | 192.168.5.44      | IP address of DNS entry #1 |  
+| hw.GW                  | 192.168.5.5       | Default route |  
+| hw.HostName            | ROTH-00D818       | Hostname (default ROTH-<last 4 digits of MAC) |  
+| totalNumberOfDevices   | 4                 | Number of thermostats attached, 4 indicates thermostats 0-3 |  
+| numberOfSlaveControllers | 0               | Number of slave controllers attach |  
+| VPI.href               | http://myroth.ininet.ch/remote/t_<uniqueID>/ | URL of remote access point, see uniqueID below |  
+| VPI.state              | 99                | Remote access point status |  
+| isMaster               | 1                 | Is this a master or slave (push master button for this to work) |  
+| Status                 | Server: Roth/1.0 (powered by SpiderControl TM), CGI=0|ILR=0, V.1.0, ILR2=0, V.2.00, ILR3=1, V.1.00 | Status of webserver components |  
 
-STELL-APP                :      1.42
-STELL-BL                 :      1.20
-STM-BL                   :      1.20
-hw.IP                    :      192.168.5.19
-hw.Addr                  :      5C-C2-13-00-D8-18
-hw.DNS1                  :      192.168.5.1
-hw.DNS2                  :      192.168.5.44
-hw.GW                    :      192.168.5.5
-hw.NM                    :      255.255.255.0
-hw.HostName              :      ROTH-00D818
-totalNumberOfDevices     :      4
-numberOfSlaveControllers :      0
-VPI.href                 :      http://myroth.ininet.ch/remote/t_53FF71064989495318460287/
-VPI.state                :      99
-isMaster                 :      1
-Status                   :      Server: Roth/1.0 (powered by SpiderControl TM)|CGI=0|ILR=0, V.1.0|ILR2=0, V.2.00|ILR3=1, V.1.00
-G0.name                  :      Kitchen
+
+** Thermostat parameters**
+
+Gx indicates the thermostat index (0 to totalNumberofDevices-1)  
+
+| Variable               | Values            | Description |  
+| G0.name                | <Whatever>        | Name of thermostat, if set |  
 G0.RaumTemp              :      20.94
 G0.SollTemp              :      20.00
 G0.SollTempMaxVal        :      22.00

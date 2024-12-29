@@ -83,7 +83,7 @@ Gx indicates the thermostat index (0 to totalNumberofDevices-1)
 
 | Purpose | cmdline |  
 | ---     | --- |  
-| Read current date/time | curl http://xxx.xxx.xxx.xxx/readVal.cgi?R0.DateTime |  
+| Read current date/time | ```curl http://xxx.xxx.xxx.xxx/readVal.cgi?R0.DateTime``` |  
 | Set Date/Time | curl http://xxx.xxx.xxx.xxx/writeVal.cgi?R0.DateTime=$(date +%s) |  
 | Set name of thermostat 0 | curl http://xxx.xxx.xxx.xxx/writeVal.cgi?G0.name=My_Thermostat |  
 | Set Temp of thermostat 0 to 20.54 C | curl http://xxx.xxx.xxx.xxx/writeVal.cgi?G0.SollTemp=2054 |  

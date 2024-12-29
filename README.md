@@ -13,7 +13,7 @@ IP address: xxx.xxx.xxx.xxx
   
 | Variable                 | Values            | Description |  
 | ---                      | ---               | --- | 
-| CD.name                  |                   | Device name (only certain FW versions |  
+| CD.name                  |                   | Device name (only certain FW versions) |  
 | CD.upass                 | 1234              | User interface password (default 1234) |  
 | STELL-APP                | 1.42              | Internal Version number (RO) |  
 | STELL-BL                 | 1.20              | Module version |  

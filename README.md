@@ -59,6 +59,6 @@ Gx indicates the thermostat index (0 to totalNumberofDevices-1)
 | Gx.TempSIUnit          | 0                 | Temperature scale, 0=C, 1=F |  
 | Gx.WeekProgEna         | 1                 | Weekly mode enabled |  
 | Gx.OPMode              | 0-2               | Operation Mode: 0=Normal, 1=Night, 2=Vacation |  
-| Gx.OPModeEna           | 0-1               | Thermostate enabled (1) or disabled (0) |  
+| Gx.OPModeEna           | 0-1               | Thermostat enabled (1) or disabled (0) |  
 | Gx.kurzID              | 1                 | ??? Same for all thermostats |  
 | Gx.ownerKurzID         | 69                | ??? Same for all thermostats |  

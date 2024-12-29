@@ -100,18 +100,8 @@ GetStatus () {
         local sCMD sQUERY a sHDR sLIN iCNT aFIELDNAM aFIELDVAL
 
         iCNT=0
-#       for a in CD.name CD.upass; do
-#               sRES=$(curl ${sURLPFX}/readVal.cgi?${a} 2>/dev/null)
-#               if [[ -n "$sRES" ]]; then
-#                       printf "%-25s:\t${sRES}\n" $a
-#                       aFIELDNAM[${iCNT}]=$a
-#                       aFIELDVAL[${iCNT}]="${sRES}"
-#                       iCNT=$((iCNT+1))
-#               fi
-#       done
-
         # Device ssettings
-        for a in CD.name CD.upass STELL-APP STELL-BL ST-APP STM-BL hw.IP hw.Addr hw.DNS1 hw.DNS2 hw.GW hw.NM hw.HostName totalNumberOfDevices numberOfSlaveControllers VPI.href VPI.state isMaster ; do
+        for a in CD.uname CD.upass STELL-APP STELL-BL ST-APP STM-BL hw.IP hw.Addr hw.DNS1 hw.DNS2 hw.GW hw.NM hw.HostName totalNumberOfDevices numberOfSlaveControllers VPI.href VPI.state isMaster ; do
                 sRES=$(curl ${sURLPFX}/readVal.cgi?${a} 2>/dev/null)
                 if [[ -n "$sRES" ]]; then
                         printf "%-25s:\t${sRES}\n" $a

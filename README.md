@@ -197,7 +197,7 @@ Step 3: The payload part of this contains the name of the controller (ROTH-FFD91
 00c0   71 06 49 89 49 53 18 46 02 87                     q.I.IS.F..
 ```
 
-Caveat: This method of discovery only works when you are directly connected to the local network. It does not work via a VPN connection as this filters broadcast traffic out.  
+Caveat: This method of discovery by the application only works when you are directly connected to the local network. It does not work via a VPN connection as these usually filter broadcast traffic.  
 
 ### Documentation
 - [Touchline PL manual](https://www.roth-benelux.com/fr/files/005%20-%20Roth-Belgium/Touchline_Manual__2013_04_EN.pdf "Touchline PL Controller manual")

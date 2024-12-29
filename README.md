@@ -154,6 +154,49 @@ I have no way to test this script against the newer Touchline SL; if you have on
 ![alt text](https://www.roth-uk.com/fileadmin/user_upload/Roth_North_Europe/Images_for_Roth_North_Europe/UK/Images/Support/Firmware/Kompatibilitetsskema_Touchline_SL_firmware_UK_20241202.png "Roth Touchline SL comparison")
 
 
+### How does the Roth Application find the Controller?
+The Roth IoS/Android application does not request the IP address of the controller, so how does it find it?  
+
+Step 1: The client app sends a UDP broadcast (255.255.255.255) to port 5000 (upnp) contained the payload "SEARCH R*\r\n":  
+```
+0000  ff ff ff ff ff ff 28 8f f6 65 d4 cd 08 00 45 00   ......(..e....E.  
+0010  00 28 ca 53 00 00 40 11 ea 41 c0 a8 05 88 ff ff   .(.S..@..A......  
+0020  ff ff cd 7c 13 88 00 14 2c 52 53 45 41 52 43 48   ...|....,RSEARCH  
+0030  20 52 2a 0d 0a 00 00 00 00 00 00 00                R*.........
+```
+
+Step 2: The Roth controller responds with a UDP broadcast from port 5000 to the client port identified in the previous step:  
+```
+0000  ff ff ff ff ff ff 00 17 13 3b a3 09 08 00 45 00   .........;....E.
+0010  00 bc 08 59 00 00 80 11 6c 1d c0 a8 05 13 ff ff   ...Y....l.......
+0020  ff ff 13 88 d1 7f 00 a8 12 4d 52 31 30 30 00 a0   .........MR100..
+0030  00 45 00 20 00 00 c0 a8 05 13 c0 a8 05 05 ff ff   .E. ............
+0040  ff 00 c0 a8 05 01 c0 a8 05 2c 5c c2 13 00 d8 18   .........,\.....
+0050  00 00 00 00 00 00 00 00 00 00 52 4f 54 48 2d 46   ..........ROTH-F
+0060  46 44 38 31 38 00 00 00 00 00 00 00 00 00 68 74   FD818.........ht
+0070  74 70 3a 2f 2f 31 39 32 2e 31 36 38 2e 35 2e 31   tp://192.168.5.1
+0080  39 2f 00 00 00 00 00 00 00 00 00 00 00 00 00 00   9/..............
+0090  00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00   ................
+00a0  00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00   ................
+00b0  00 00 00 00 00 00 00 00 00 00 00 00 00 00 53 ff   ..............S.
+00c0  71 06 49 89 49 53 18 46 02 87                     q.I.IS.F..
+
+```
+Step 3: The payload part of this contains the name of the controller (ROTH-FFD918) and the IP (192.168.5.19 / C0 A8 05 13 at offset 0x36), it uses this to connect.  
+```
+0020                                 52 31 30 30 00 a0             R100..
+0030   00 45 00 20 00 00 c0 a8 05 13 c0 a8 05 05 ff ff   .E. ............
+0040   ff 00 c0 a8 05 01 c0 a8 05 2c 5c c2 13 00 d8 18   .........,\.....
+0050   00 00 00 00 00 00 00 00 00 00 52 4f 54 48 2d 46   ..........ROTH-F
+0060   46 44 38 31 38 00 00 00 00 00 00 00 00 00 68 74   FD818.........ht
+0070   74 70 3a 2f 2f 31 39 32 2e 31 36 38 2e 35 2e 31   tp://192.168.5.1
+0080   39 2f 00 00 00 00 00 00 00 00 00 00 00 00 00 00   9/..............
+0090   00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00   ................
+00a0   00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00   ................
+00b0   00 00 00 00 00 00 00 00 00 00 00 00 00 00 53 ff   ..............S.
+00c0   71 06 49 89 49 53 18 46 02 87                     q.I.IS.F..
+```
+
 ### Documentation
 - [Touchline PL manual](https://www.roth-benelux.com/fr/files/005%20-%20Roth-Belgium/Touchline_Manual__2013_04_EN.pdf "Touchline PL Controller manual")
 - [Touchline EnergyLogic Thermostat](https://www.roth-danmark.dk/fileadmin/user_upload/Roth_North_Europe/Images_for_Roth_North_Europe/Danmark/pdf/Danmark/Produkter/Udgaaet_produkter/Installation_Roth_Touchline_Room_Thermostat__230V.pdf "EnergyLogic Thermostat")

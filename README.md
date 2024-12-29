@@ -5,7 +5,7 @@ Scripts and Information about the Roth Touchline range of underfloor heating con
 Data from the controller can be accessed using the web interface endpoints readVal.cgi and writeVal.cgi. e.g.  
 
 Read  Value: http://xxx.xxx.xxx.xxx/readVal.cgi?variable  
-Write Value: http://xxx.xxx.xxx.xxx/writwVal.cgi?variable=value  
+Write Value: http://xxx.xxx.xxx.xxx/writeVal.cgi?variable=value  
   
 IP address: xxx.xxx.xxx.xxx  
   
@@ -46,6 +46,8 @@ IP address: xxx.xxx.xxx.xxx
 
 ### Thermostat parameters  
 These parameters can be updated using the writeVal.cgi?variable=value  
+e.g.  
+      http://xxx.xxx.xxx.xxx/writeVal.cgi?variable=value  
 
 Gx indicates the thermostat index (0 to totalNumberofDevices-1)  
 

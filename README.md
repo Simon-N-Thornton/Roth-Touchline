@@ -145,3 +145,11 @@ e.g.
 | rothread.sh -w G0.OPMode=1 | Set Thermostat #0 to Night mode |  
 | rothread.sh -w G1.SollTemp=19.54 | Set required Temperature to 19.54 on Thermostat #2 |  
 | rothread.sh -w R0.Datetime=$(date +%s) | Set controller Date/Time to current on Linux |  
+
+### Roth Touchline SL API
+The firmware file format for the newer Touchline SL controllers has a different format to the older Touchline BL/PL controllers. The file appears to be encoded and does not reveal anything about the internal contents.  
+
+I have no way to test this script against the newer Touchline SL; if you have one of these controllers please let me know your results.
+
+![alt text](https://www.roth-uk.com/fileadmin/user_upload/Roth_North_Europe/Images_for_Roth_North_Europe/UK/Images/Support/Firmware/Kompatibilitetsskema_Touchline_SL_firmware_UK_20241202.png "Roth Touchline SL comparison")
+

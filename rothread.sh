@@ -309,7 +309,6 @@ case  ${sCMD} in
                 ;;
         write)  WriteValue
                 ;;
-        read)
-                ReadValue
+        read)   ReadValue
                 ;;
 esac

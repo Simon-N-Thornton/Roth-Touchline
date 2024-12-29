@@ -30,7 +30,7 @@ IP address: xxx.xxx.xxx.xxx
 | VPI.href                 | http://myroth.ininet.ch/remote/t_uniqueID/ | URL of remote access point, see uniqueID below |  
 | VPI.state                | 99                | Remote access point status |  
 | isMaster                 | 1                 | Is this a master or slave (push master button for this to work) |  
-| Status                   | Server: Roth/1.0 (powered by SpiderControl TM), CGI=0|ILR=0, V.1.0, ILR2=0, V.2.00, ILR3=1, V.1.00 | Status of webserver components |  
+| Status                   | Server: Roth/1.0 (powered by SpiderControl TM), CGI=0, ILR=0, V.1.0, ILR2=0, V.2.00, ILR3=1, V.1.00 | Status of webserver components |  
 |                          |                   |  
 | R0.DateTime              | EPOCH datetime    | Date/time since 1970 e.g. 1703956882 or " Sat Dec 30 15:33:54 CET 2023", can be updated |  
 | R0.ErrorCode             | 0                 | Current error |  

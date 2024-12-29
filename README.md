@@ -27,7 +27,7 @@ HW = Network Interface
   
 | Variable                 | Values            | Description |  
 | ---                      | ---               | --- | 
-| CD.name                  |                   | Device name (only certain FW versions) |  
+| CD.uname                 |                   | Username  (only certain FW versions) |  
 | CD.upass                 | 1234              | User interface password (default 1234) |  
 | STELL-APP                | 1.42              | Internal Version number (RO) |  
 | STELL-BL                 | 1.20              | Module version |  
@@ -97,7 +97,7 @@ The easiest way to find the API endpoints for the older controllers, not the SL 
 
 Source: https://www.roth-uk.com/support/software-and-firmware-updates  
 
-The "Roth.tcr" file contains a list of the (potential) API calls that can be used with readVal.cgi and writeVal.cgi calls. Not all of these are actually present in the Touchline build and return a 404 error when called.  
+The "Roth.tcr" file contains a list of the (potential) API calls that can be used with readVal.cgi and writeVal.cgi calls. Not all of these are implemented in the Touchline build and the unimplemented ones return a 404 error when called.  
 
 ```
 CD.reset;CD.reset; ; ; ; ; ; ; ; ; ;

@@ -7,7 +7,7 @@ Roth make a series of controllers for under floor heating systems, the older ver
 ![alt text](https://www.roth-uk.com/fileadmin/user_upload/Roth_North_Europe/Images_for_Roth_North_Europe/Danmark/Produkter_images/Touchline/Touchline_kontrol_enhed_uden_LAN.jpg "Roth Touchline PL")&nbsp;![alt text](https://www.roth-uk.com/fileadmin/user_upload/Roth_North_Europe/Images_for_Roth_North_Europe/Danmark/Produkter_images/Touchline/Touchline_stregtegning_382x79.jpg "LAN Module")
 
 ### Network
-To connect the wired-only Roth controller I used a Vonets VAR11N_300 Wireless/Ethernet bridge, which is a matchbox sized device. The ethernet side is connected to the ethernet port of the touchline and the wireless is configured to connect to the IoT WiFi SSID).
+To connect the wired-only Roth controller I used a Vonets VAR11N_300 Wireless/Ethernet bridge, which is a matchbox sized device. The ethernet side is connected to the ethernet port of the touchline and the wireless is configured to connect to the (IoT) WiFi SSID.
 
 
 ### API Interface

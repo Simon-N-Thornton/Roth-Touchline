@@ -45,7 +45,7 @@ IP address: xxx.xxx.xxx.xxx
 
 
 ### Thermostat parameters  
-These parameters can be updated using the writeVal.cgi=variable=value  
+These parameters can be updated using the writeVal.cgi?variable=value  
 
 Gx indicates the thermostat index (0 to totalNumberofDevices-1)  
 

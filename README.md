@@ -2,7 +2,7 @@
 
 Scripts and Information about the Roth Touchline range of underfloor heating controllers.
 
-URL: http://xxx.xxx.xxx.xxx/readVal.cgi?variable
+URL: http://xxx.xxx.xxx.xxx/readVal.cgi?variable\
 IP                       :      192.168.5.19
 
 **Device Parameters**

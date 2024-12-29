@@ -64,3 +64,12 @@ Gx indicates the thermostat index (0 to totalNumberofDevices-1)
 | Gx.OPModeEna           | 0-1               | Thermostat enabled (1) or disabled (0) |  
 | Gx.kurzID              | 1                 | ??? Same for all thermostats |  
 | Gx.ownerKurzID         | 69                | ??? Same for all thermostats |  
+
+### Examples
+
+| Purpose | cmdline |  
+| Read current date/time | curl http://xxx.xxx.xxx.xxx/readVal.cgi?R0.DateTime |  
+| Set Date/Time | curl http://xxx.xxx.xxx.xxx/writeVal.cgi?R0.DateTime=$(date +%s) |  
+| Set name of thermostat 0 | curl http://xxx.xxx.xxx.xxx/writeVal.cgi?G0.name=My_Thermostat |  
+| Set Temp of thermostat 0 to 20.54 C | curl http://xxx.xxx.xxx.xxx/writeVal.cgi?G0.SollTemp=2054 |  
+| Set thermostat 0 mode to night | curl http://xxx.xxx.xxx.xxx/writeVal.cgi?G0.OPMode=1 |  

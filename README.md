@@ -21,13 +21,13 @@ IP address: xxx.xxx.xxx.xxx
 | hw.IP                    | xxx.xxx.xxx.xxx   | IP Address of Device |  
 | hw.NM                    | 255.255.255.0     | Netmask of IP |  
 | hw.Addr                  | 5C-AB-23-DF-FF-FA | MAC address of Interface |  
-| hw.DNS1                  | www.www.www.www   | IP address of DNS entry #1 |  
-| hw.DNS2                  | yyy.yyy.yyy.yyy   | IP address of DNS entry #1 |  
+| hw.DNS1                  | dd1.dd1.dd1.dd1   | IP address of DNS entry #1 |  
+| hw.DNS2                  | dd2.dd3.dd2.dd2   | IP address of DNS entry #2 |  
 | hw.GW                    | zzz.zzz.zzz.zzz   | Default route |  
-| hw.HostName              | ROTH-DFFFFA       | Hostname (default ROTH-<last 6 digits of MAC> |  
+| hw.HostName              | ROTH-DFFFFA       | Hostname (default ROTH-last_6_digits_of_MAC |  
 | totalNumberOfDevices     | 4                 | Number of thermostats attached, 4 indicates thermostats 0-3 |  
 | numberOfSlaveControllers | 0                 | Number of slave controllers attach |  
-| VPI.href                 | http://myroth.ininet.ch/remote/t_<uniqueID>/ | URL of remote access point, see uniqueID below |  
+| VPI.href                 | http://myroth.ininet.ch/remote/t_uniqueID/ | URL of remote access point, see uniqueID below |  
 | VPI.state                | 99                | Remote access point status |  
 | isMaster                 | 1                 | Is this a master or slave (push master button for this to work) |  
 | Status                   | Server: Roth/1.0 (powered by SpiderControl TM), CGI=0|ILR=0, V.1.0, ILR2=0, V.2.00, ILR3=1, V.1.00 | Status of webserver components |  

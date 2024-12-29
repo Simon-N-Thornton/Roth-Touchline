@@ -88,7 +88,7 @@ The easiest way to find the API endpoints for the older controller (not the SL v
 
 Source: https://www.roth-uk.com/support/software-and-firmware-updates  
 
-This file contains a list of the (potential) API calls that can be used with readVal.cgi and writeVal.cgi calls. Not all of these are actually present in the Touchline build and return a 404 error when called.  
+The "Roth.tcr" file contains a list of the (potential) API calls that can be used with readVal.cgi and writeVal.cgi calls. Not all of these are actually present in the Touchline build and return a 404 error when called.  
 
 ```
 CD.reset;CD.reset; ; ; ; ; ; ; ; ; ;

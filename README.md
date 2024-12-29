@@ -126,7 +126,7 @@ R0.numberOfPairedDevices;R0.numberOfPairedDevices; ; ; ; ; ; ; ; ; ;
 .
 .
 ```
-Note: the '+#COFF_devicePageOffset#' translates into the index of the thermostat  
+Note: the '+#COFF_devicePageOffset#' translates into the index of the thermostat e.g. if there are 5 thermostats, the devicePageOffset is from 0-4  
 
 
 ### API Script

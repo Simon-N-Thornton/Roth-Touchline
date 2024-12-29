@@ -19,6 +19,11 @@ Write Value: http://xxx.xxx.xxx.xxx/writeVal.cgi?variable=value
 IP address: xxx.xxx.xxx.xxx  
   
 ### Device Parameters  
+
+CD = Global Variables  
+Rx = Regulator  
+Gx = Thermostat  
+HW = Network Interface  
   
 | Variable                 | Values            | Description |  
 | ---                      | ---               | --- | 
@@ -49,8 +54,8 @@ IP address: xxx.xxx.xxx.xxx
 | R0.Taupunkt              | 0                 | ??? |  
 | R0.WeekProgWarn          | 1                 | ??? |  
 | R0.kurzID                | 69                | same as Gx.kurzID
-| R0.numberOfPairedDevices | 4                | Number of paired devices, same as 'totalNumberOfDevices' |  
-| R0.uniqueID              | 53FF710649895434 | Unique identifier, used to construct VPI.href | 
+| R0.numberOfPairedDevices | 4                 | Number of paired devices, same as 'totalNumberOfDevices' |  
+| R0.uniqueID              | 63BF710649F95434  | Unique identifier, used to construct VPI.href | 
 
 
 ### Thermostat parameters  
@@ -86,7 +91,7 @@ Gx indicates the thermostat index (0 to totalNumberofDevices-1)
 | Set thermostat 0 mode to night | curl http://xxx.xxx.xxx.xxx/writeVal.cgi?G0.OPMode=1 |  
 
 ### Locating API endpoints
-The easiest way to find the API endpoints for the older controller (not the SL version) is to download the firmware, unpack it and examine the file "Roth.tcr".  
+The easiest way to find the API endpoints for the older controllers, not the SL version, is to download the firmware, unpack it and examine the file "Roth.tcr".  
 
 ![alt text](https://www.roth-uk.com/fileadmin/user_upload/Roth_North_Europe/Images_for_Roth_North_Europe/UK/Images/Support/Firmware/Kompatibilitetsskema_Touchline_firmware_alle_sprog_20191007_UK_v2.jpg "Touchline controllers")
 
@@ -120,7 +125,21 @@ R0.kurzID;R0.kurzID; ; ; ; ; ; ; ; ; ;
 R0.numberOfPairedDevices;R0.numberOfPairedDevices; ; ; ; ; ; ; ; ; ;
 .
 .
-
 ```
+Note: the '+#COFF_devicePageOffset#' translates into the index of the thermostat  
 
+
+### API Script
+The sum of all this has been captured in a bash script called 'rothread.sh' that 
+- Allows entry of temperatures 
+
+e.g.
+
+| cmd line | Description |  
+| ---      | ---         |  
+| rothread.sh -h | Show help |  
+| rothread.sh -s | Show status of all variables |  
+| rothread.sh -w G0.OPMode=1 | Set Thermostat #0 to Night mode |  
+| rothread.sh -w G1.SollTemp=19.54 | Set required Temperature to 19.54 on Thermostat #2 |  
+| rothread.sh -w R0.Datetime=$(date +%s) | Set controller Date/Time to current on Linux |  
 

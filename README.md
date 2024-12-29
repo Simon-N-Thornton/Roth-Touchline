@@ -182,7 +182,7 @@ Step 2: The Roth controller responds with a UDP broadcast from port 5000 to the 
 00c0  71 06 49 89 49 53 18 46 02 87                     q.I.IS.F..
 
 ```
-Step 3: The payload part of this contains the name of the controller (ROTH-FFD918) and the IP (192.168.5.19 / C0 A8 05 13 at offset 0x36), it uses this to connect.  
+Step 3: The payload part of this contains the name of the controller (ROTH-FFD918) and the IP (192.168.5.19 / C0 A8 05 13 at offset 0x36), it uses this to connect. The service URL is specified here as http://192.168.5.19 (this version does not use SSL).  
 ```
 0020                                 52 31 30 30 00 a0             R100..
 0030   00 45 00 20 00 00 c0 a8 05 13 c0 a8 05 05 ff ff   .E. ............
@@ -196,6 +196,8 @@ Step 3: The payload part of this contains the name of the controller (ROTH-FFD91
 00b0   00 00 00 00 00 00 00 00 00 00 00 00 00 00 53 ff   ..............S.
 00c0   71 06 49 89 49 53 18 46 02 87                     q.I.IS.F..
 ```
+
+Caveat: This method of discovery only works when you are directly connected to the local network. It does not work via a VPN connection as this filters broadcast traffic out.  
 
 ### Documentation
 - [Touchline PL manual](https://www.roth-benelux.com/fr/files/005%20-%20Roth-Belgium/Touchline_Manual__2013_04_EN.pdf "Touchline PL Controller manual")

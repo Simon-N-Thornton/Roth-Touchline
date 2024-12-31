@@ -13,8 +13,8 @@ To connect the wired-only Roth controller I used a Vonets VAR11N_300 Wireless/Et
 ### API Interface
 Data from the controller can be accessed using the web interface endpoints readVal.cgi and writeVal.cgi. e.g.  
 
-Read  Value: http://xxx.xxx.xxx.xxx/readVal.cgi?variable  
-Write Value: http://xxx.xxx.xxx.xxx/writeVal.cgi?variable=value  
+Read  Value: http://xxx.xxx.xxx.xxx/cgi-bin/readVal.cgi?variable  
+Write Value: http://xxx.xxx.xxx.xxx/cgi-bin/writeVal.cgi?variable=value  
   
 IP address: xxx.xxx.xxx.xxx  
   
@@ -27,24 +27,24 @@ HW = Network Interface
   
 | Variable                 | Values            | Description |  
 | ---                      | ---               | --- | 
-| CD.uname                 |                   | Username  (only certain FW versions) |  
-| CD.upass                 | 1234              | User interface password (default 1234) |  
-| STELL-APP                | 1.42              | Internal Version number (RO) |  
-| STELL-BL                 | 1.20              | Module version |  
-| STM-BL                   | 1.20              | MOdule version |  
 | hw.IP                    | xxx.xxx.xxx.xxx   | IP Address of Device |  
 | hw.NM                    | 255.255.255.0     | Netmask of IP |  
-| hw.Addr                  | 5C-AB-23-DF-C9-FA | MAC address of Interface |  
+| hw.Addr                  | M1-M2-M3-M4-M5-M6 | MAC address of Interface |  
 | hw.DNS1                  | dd1.dd1.dd1.dd1   | IP address of DNS entry #1 |  
 | hw.DNS2                  | dd2.dd3.dd2.dd2   | IP address of DNS entry #2 |  
 | hw.GW                    | zzz.zzz.zzz.zzz   | Default route |  
-| hw.HostName              | ROTH-DFC9FA       | Hostname (default ROTH-last_6_digits_of_MAC) |  
-| totalNumberOfDevices     | 4                 | Number of thermostats attached, 4 indicates thermostats 0-3 |  
-| numberOfSlaveControllers | 0                 | Number of slave controllers attach |  
+| hw.HostName              | ROTH-M4M5M6       | Hostname (default ROTH-last_6_digits_of_MAC) |  
+| totalNumberOfDevices     | 0-35              | Number of thermostats attached, 4 would indicate thermostats 0-3 |  
+| numberOfSlaveControllers | 0                 | Number of slave controllers attached |  
 | VPI.href                 | http://myroth.ininet.ch/remote/t_uniqueID/ | URL of remote access point, see uniqueID below |  
 | VPI.state                | 99                | Remote access point status |  
 | isMaster                 | 1                 | Is this a master or slave (push master button for this to work) |  
 | Status                   | Server: Roth/1.0 (powered by SpiderControl TM), CGI=0, ILR=0, V.1.0, ILR2=0, V.2.00, ILR3=1, V.1.00 | Status of webserver components |  
+| CD.uname                 |                   | Username  (only certain FW versions) |  
+| CD.upass                 | 1234              | User interface password (default 1234) |  
+| STELL-APP                | 1.42              | Module version (RO) |  
+| STELL-BL                 | 1.20              | Module version (RO) |  
+| STM-BL                   | 1.20              | Module version (RO) |  
 |                          |                   |  
 | R0.DateTime              | EPOCH datetime    | Date/time since 1970 e.g. 1703956882 or " Sat Dec 30 15:33:54 CET 2023", can be updated |  
 | R0.ErrorCode             | 0                 | Current error |  
@@ -61,7 +61,7 @@ HW = Network Interface
 ### Thermostat parameters  
 These parameters can be updated using the writeVal.cgi?variable=value  
 e.g.  
-      http://xxx.xxx.xxx.xxx/writeVal.cgi?variable=value  
+      http://xxx.xxx.xxx.xxx/cgi-bin/writeVal.cgi?variable=value  
 
 x indicates the thermostat index (0 to totalNumberofDevices-1) e.g. G0  
 
@@ -77,8 +77,8 @@ x indicates the thermostat index (0 to totalNumberofDevices-1) e.g. G0
 | Gx.WeekProg            | 1-3               | Weekly Program |  
 | Gx.OPModeEna           | 0-1               | Thermostat enabled (1) or disabled (0) |  
 | Gx.WeekProgEna         | 1                 | Weekly program mode enabled |  
-| Gx.kurzID              | 1                 | ??? Same for all thermostats |  
-| Gx.ownerKurzID         | 69                | ??? Same for all thermostats |  
+| Gx.kurzID              | 1                 | Short ID = Thermostat Index = x |  
+| Gx.ownerKurzID         | 69                | Owner Short ID??? Same for all thermostats |  
 
 #### Modes
 
@@ -90,33 +90,36 @@ For the purposes of illustration the examples use environment variables. Before 
 # Set these variable 
 IP=192.168.x.x      # The IP of your controller
 TH=0                # Thermostat number (0-35)
+
+# Read current values
+printf "%-10s:\t" "OPMode";curl http://${IP}/cgi-bin/readVal.cgi?G${TH}.OPMode;printf "\n%-10s:\t" "WeekProg";curl http://${IP}/cgi-bin/readVal.cgi?G${TH}.WeekProg;printf "\n"
 ```
 
 | Mode             | Values                      | Example |  
 | ---              | ---                         | --- | 
-| Day              | Gx.OPMode=0, Gx.WeekProg=0  | ```curl http://${IP}/writeVal.cgi?G${TH}.OPMOde=0;curl http://${IP}/writeVal.cgi?G${TH}.WeekProg=0;``` |  
-| Night            | Gx.OPMode=1, Gx.WeekProg=0  | ```curl http://${IP}/writeVal.cgi?G${TH}.OPMOde=1;curl http://${IP}/writeVal.cgi?G${TH}.WeekProg=0;``` |  
-| Holiday          | Gx.OPMode=2, Gx.WeekProg=0  | ```curl http://${IP}/writeVal.cgi?G${TH}.OPMOde=2;curl http://${IP}/writeVal.cgi?G${TH}.WeekProg=0;``` |  
-| Pro 1 Day        | Gx.OPMode=0, Gx.WeekProg=1  | ```curl http://${IP}/writeVal.cgi?G${TH}.OPMOde=0;curl http://${IP}/writeVal.cgi?G${TH}.WeekProg=1;``` |  
-| Pro 1 Night      | Gx.OPMode=1, Gx.WeekProg=1  | ```curl http://${IP}/writeVal.cgi?G${TH}.OPMOde=1;curl http://${IP}/writeVal.cgi?G${TH}.WeekProg=1;``` |  
-| Pro 1 Holiday    | Gx.OPMode=2, Gx.WeekProg=1  | ```curl http://${IP}/writeVal.cgi?G${TH}.OPMOde=2;curl http://${IP}/writeVal.cgi?G${TH}.WeekProg=1;``` |  
-| Pro 2 Day        | Gx.OPMode=0, Gx.WeekProg=2  | ```curl http://${IP}/writeVal.cgi?G${TH}.OPMOde=0;curl http://${IP}/writeVal.cgi?G${TH}.WeekProg=2;``` |  
-| Pro 2 Night      | Gx.OPMode=1, Gx.WeekProg=2  | ```curl http://${IP}/writeVal.cgi?G${TH}.OPMOde=1;curl http://${IP}/writeVal.cgi?G${TH}.WeekProg=2;``` |  
-| Pro 2 Holiday    | Gx.OPMode=2, Gx.WeekProg=2  | ```curl http://${IP}/writeVal.cgi?G${TH}.OPMOde=2;curl http://${IP}/writeVal.cgi?G${TH}.WeekProg=2;``` |  
-| Pro 3 Day        | Gx.OPMode=0, Gx.WeekProg=3  | ```curl http://${IP}/writeVal.cgi?G${TH}.OPMOde=0;curl http://${IP}/writeVal.cgi?G${TH}.WeekProg=3;``` |  
-| Pro 3 Night      | Gx.OPMode=1, Gx.WeekProg=3  | ```curl http://${IP}/writeVal.cgi?G${TH}.OPMOde=1;curl http://${IP}/writeVal.cgi?G${TH}.WeekProg=3;``` |  
-| Pro 3 Holiday    | Gx.OPMode=2, Gx.WeekProg=3  | 	```curl http://${IP}/writeVal.cgi?G${TH}.OPMOde=2;curl http://${IP}/writeVal.cgi?G${TH}.WeekProg=3;``` |  
+| Day              | Gx.OPMode=0, Gx.WeekProg=0  | ```curl http://${IP}/writeVal.cgi?G${TH}.OPMode=0;curl http://${IP}/writeVal.cgi?G${TH}.WeekProg=0;``` |  
+| Night            | Gx.OPMode=1, Gx.WeekProg=0  | ```curl http://${IP}/writeVal.cgi?G${TH}.OPMode=1;curl http://${IP}/writeVal.cgi?G${TH}.WeekProg=0;``` |  
+| Holiday          | Gx.OPMode=2, Gx.WeekProg=0  | ```curl http://${IP}/writeVal.cgi?G${TH}.OPMode=2;curl http://${IP}/writeVal.cgi?G${TH}.WeekProg=0;``` |  
+| Pro 1 Day        | Gx.OPMode=0, Gx.WeekProg=1  | ```curl http://${IP}/writeVal.cgi?G${TH}.OPMode=0;curl http://${IP}/writeVal.cgi?G${TH}.WeekProg=1;``` |  
+| Pro 1 Night      | Gx.OPMode=1, Gx.WeekProg=1  | ```curl http://${IP}/writeVal.cgi?G${TH}.OPMode=1;curl http://${IP}/writeVal.cgi?G${TH}.WeekProg=1;``` |  
+| Pro 1 Holiday    | Gx.OPMode=2, Gx.WeekProg=1  | ```curl http://${IP}/writeVal.cgi?G${TH}.OPMode=2;curl http://${IP}/writeVal.cgi?G${TH}.WeekProg=1;``` |  
+| Pro 2 Day        | Gx.OPMode=0, Gx.WeekProg=2  | ```curl http://${IP}/writeVal.cgi?G${TH}.OPMode=0;curl http://${IP}/writeVal.cgi?G${TH}.WeekProg=2;``` |  
+| Pro 2 Night      | Gx.OPMode=1, Gx.WeekProg=2  | ```curl http://${IP}/writeVal.cgi?G${TH}.OPMode=1;curl http://${IP}/writeVal.cgi?G${TH}.WeekProg=2;``` |  
+| Pro 2 Holiday    | Gx.OPMode=2, Gx.WeekProg=2  | ```curl http://${IP}/writeVal.cgi?G${TH}.OPMode=2;curl http://${IP}/writeVal.cgi?G${TH}.WeekProg=2;``` |  
+| Pro 3 Day        | Gx.OPMode=0, Gx.WeekProg=3  | ```curl http://${IP}/writeVal.cgi?G${TH}.OPMode=0;curl http://${IP}/writeVal.cgi?G${TH}.WeekProg=3;``` |  
+| Pro 3 Night      | Gx.OPMode=1, Gx.WeekProg=3  | ```curl http://${IP}/writeVal.cgi?G${TH}.OPMode=1;curl http://${IP}/writeVal.cgi?G${TH}.WeekProg=3;``` |  
+| Pro 3 Holiday    | Gx.OPMode=2, Gx.WeekProg=3  | ```curl http://${IP}/writeVal.cgi?G${TH}.OPMode=2;curl http://${IP}/writeVal.cgi?G${TH}.WeekProg=3;``` |  
 
 ### Examples
 
 | Purpose | cmdline |  
 | ---     | --- |  
-| Read current date/time | ```curl http://xxx.xxx.xxx.xxx/readVal.cgi?R0.DateTime``` |  
-| Set Date/Time | ```curl http://xxx.xxx.xxx.xxx/writeVal.cgi?R0.DateTime=$(date +%s)``` |  
-| Set name of thermostat 0 | ```curl http://xxx.xxx.xxx.xxx/writeVal.cgi?G0.name=My_Thermostat``` |  
-| Set Temp of thermostat 0 to 20.54 C | ```curl http://xxx.xxx.xxx.xxx/writeVal.cgi?G0.SollTemp=2054``` |  
-| Read Temp of thermostat 0 | ```curl http://xxx.xxx.xxx.xxx/readVal.cgi?G0.SollTemp``` |  
-| Set thermostat 0 mode to night | ```curl http://xxx.xxx.xxx.xxx/writeVal.cgi?G0.OPMode=1``` |  
+| Read current date/time | ```curl http://${IP}/cgi-bin/readVal.cgi?R0.DateTime``` |  
+| Set Date/Time | ```curl curl http://${IP}/cgi-bin/writeVal.cgi?R0.DateTime=$(date +%s)``` |  
+| Set name of thermostat 0 | ```curl curl http://${IP}/cgi-bin/writeVal.cgi?G0.name=My_Thermostat``` |  
+| Set Temp of thermostat 0 to 20.54 C | ```curl curl http://${IP}/cgi-bin/writeVal.cgi?G0.SollTemp=2054``` |  
+| Read Temp of thermostat 0 | ```curl curl http://${IP}/cgi-bin/readVal.cgi?G0.SollTemp``` |  
+| Set thermostat 0 mode to night | ```curl curl http://${IP}/cgi-bin/writeVal.cgi?G0.OPMode=1``` |  
 
 ### Locating API endpoints
 The easiest way to find the API endpoints for the older controllers, not the SL version, is to download the firmware, unpack it and examine the file "Roth.tcr".  
@@ -158,13 +161,11 @@ Note: the '+#COFF_devicePageOffset#' translates into the index of the thermostat
 
 
 ### API Script
-The sum of all this has been captured in a bash script called 'rothread.sh' that 
-- Allows entry of temperatures in dsecimal x.y format i.e. 18.54 instead of 1854
+For convenience the API calls are encapsulated in the bash script 'rothread.sh' that 
+- Allows entry of temperatures in decimal x.y format i.e. 18.54 instead of 1854
 - Implements a status print of all variables
 - Logs the output to files in /var/tmp
 - Builds an arrays of field names/values to allow this to be called from other scripts
-
-e.g.
 
 | cmd line | Description |  
 | ---      | ---         |  
@@ -177,7 +178,7 @@ e.g.
 ### Roth Touchline SL API
 The firmware file format for the newer Touchline SL controllers has a different format to the older Touchline BL/PL controllers. The file appears to be encoded and does not reveal anything about the internal contents.  
 
-I have no way to test this script against the newer Touchline SL; if you have one of these controllers please let me know your results.
+I have not tested this script against the newer Touchline SL; if you have one of these controllers please let me know your results.
 
 ![alt text](https://www.roth-uk.com/fileadmin/user_upload/Roth_North_Europe/Images_for_Roth_North_Europe/UK/Images/Support/Firmware/Kompatibilitetsskema_Touchline_SL_firmware_UK_20241202.png "Roth Touchline SL comparison")
 
@@ -229,4 +230,4 @@ Caveat: This method of discovery by the application only works when you are dire
 
 ### Documentation
 - [Touchline PL manual](https://www.roth-benelux.com/fr/files/005%20-%20Roth-Belgium/Touchline_Manual__2013_04_EN.pdf "Touchline PL Controller manual")
-- [Touchline EnergyLogic Thermostat](https://www.roth-danmark.dk/fileadmin/user_upload/Roth_North_Europe/Images_for_Roth_North_Europe/Danmark/pdf/Danmark/Produkter/Udgaaet_produkter/Installation_Roth_Touchline_Room_Thermostat__230V.pdf "EnergyLogic Thermostat")
+- [Touchline EnergyLogic Thermostat](https://www.roth-danmark.dk/fileadmin/user_upload/Roth_North_Europe/Images_for_Roth_North_Europe/Danmark/pdf/Danmark/Produkter/Udgaaet_produkter/Installation_Roth_Touchline_Room_Thermostat__230V.pdf)

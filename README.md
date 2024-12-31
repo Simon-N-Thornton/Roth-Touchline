@@ -31,12 +31,12 @@ HW = Network Interface
 | hw.NM                    | 255.255.255.0     | Netmask of IP |  
 | hw.Addr                  | M1-M2-M3-M4-M5-M6 | MAC address of Interface |  
 | hw.DNS1                  | dd1.dd1.dd1.dd1   | IP address of DNS entry #1 |  
-| hw.DNS2                  | dd2.dd3.dd2.dd2   | IP address of DNS entry #2 |  
+| hw.DNS2                  | dd2.dd2.dd2.dd2   | IP address of DNS entry #2 |  
 | hw.GW                    | zzz.zzz.zzz.zzz   | Default route |  
 | hw.HostName              | ROTH-M4M5M6       | Hostname (default ROTH-last_6_digits_of_MAC) |  
 | totalNumberOfDevices     | 0-35              | Number of thermostats attached, 4 would indicate thermostats 0-3 |  
 | numberOfSlaveControllers | 0                 | Number of slave controllers attached |  
-| VPI.href                 | http://myroth.ininet.ch/remote/t_uniqueID/ | URL of remote access point, see uniqueID below |  
+| VPI.href                 | http://myroth.ininet.ch/remote/t_R0.uniqueID/ | URL of remote access point, see uniqueID below |  
 | VPI.state                | 99                | Remote access point status |  
 | isMaster                 | 1                 | Is this a master or slave (push master button for this to work) |  
 | Status                   | Server: Roth/1.0 (powered by SpiderControl TM), CGI=0, ILR=0, V.1.0, ILR2=0, V.2.00, ILR3=1, V.1.00 | Status of webserver components |  
@@ -51,11 +51,11 @@ HW = Network Interface
 | R0.OPModeRegler          | 0                 | ??? |  
 | R0.Safety                | 0                 | ??? |  
 | R0.SystemStatus          | 0                 | System status, 0=off, 1=running |  
-| R0.Taupunkt              | 0                 | ??? |  
+| R0.Taupunkt              | 0                 | Dew point; is the temperature to which the air must cool for it to become completely saturated with water |  
 | R0.WeekProgWarn          | 1                 | ??? |  
-| R0.kurzID                | 69                | same as Gx.kurzID
+| R0.kurzID                | 69                | Short ID, same as Gx.kurzID
 | R0.numberOfPairedDevices | 4                 | Number of paired devices, same as 'totalNumberOfDevices' |  
-| R0.uniqueID              | 63BF710649F95434  | Unique identifier, used to construct VPI.href | 
+| R0.uniqueID              | 16 Digit UUID     | Unique identifier, used to construct VPI.href | 
 
 
 ### Thermostat parameters  
@@ -74,7 +74,7 @@ x indicates the thermostat index (0 to totalNumberofDevices-1) e.g. G0
 | Gx.SollTempMinVal      | 1600              | Min temperature allowed for SollTemp, 16.00 |  
 | Gx.TempSIUnit          | 0                 | Temperature scale, 0=C, 1=F |  
 | Gx.OPMode              | 0-2               | Operation Mode: 0=Normal, 1=Night, 2=Vacation |  
-| Gx.WeekProg            | 1-3               | Weekly Program |  
+| Gx.WeekProg            | 1-3               | Weekly Program, 1=Pro 1, 2=Pro 2, 3=Pro 3 |  
 | Gx.OPModeEna           | 0-1               | Thermostat enabled (1) or disabled (0) |  
 | Gx.WeekProgEna         | 1                 | Weekly program mode enabled |  
 | Gx.kurzID              | 1                 | Short ID = Thermostat Index = x |  
@@ -90,36 +90,39 @@ For the purposes of illustration the examples use environment variables. Before 
 # Set these variable 
 IP=192.168.x.x      # The IP of your controller
 TH=0                # Thermostat number (0-35)
+URL=http://${IP}/cgi-bin
 
 # Read current values
-printf "%-10s:\t" "OPMode";curl http://${IP}/cgi-bin/readVal.cgi?G${TH}.OPMode;printf "\n%-10s:\t" "WeekProg";curl http://${IP}/cgi-bin/readVal.cgi?G${TH}.WeekProg;printf "\n"
+printf "%-10s:\t" "OPMode";curl ${URL}/readVal.cgi?G${TH}.OPMode;printf "\n%-10s:\t" "WeekProg";curl ${URL}/readVal.cgi?G${TH}.WeekProg;printf "\n"
 ```
 
 | Mode             | Values                      | Example |  
 | ---              | ---                         | --- | 
-| Day              | Gx.OPMode=0, Gx.WeekProg=0  | ```curl http://${IP}/writeVal.cgi?G${TH}.OPMode=0;curl http://${IP}/writeVal.cgi?G${TH}.WeekProg=0;``` |  
-| Night            | Gx.OPMode=1, Gx.WeekProg=0  | ```curl http://${IP}/writeVal.cgi?G${TH}.OPMode=1;curl http://${IP}/writeVal.cgi?G${TH}.WeekProg=0;``` |  
-| Holiday          | Gx.OPMode=2, Gx.WeekProg=0  | ```curl http://${IP}/writeVal.cgi?G${TH}.OPMode=2;curl http://${IP}/writeVal.cgi?G${TH}.WeekProg=0;``` |  
-| Pro 1 Day        | Gx.OPMode=0, Gx.WeekProg=1  | ```curl http://${IP}/writeVal.cgi?G${TH}.OPMode=0;curl http://${IP}/writeVal.cgi?G${TH}.WeekProg=1;``` |  
-| Pro 1 Night      | Gx.OPMode=1, Gx.WeekProg=1  | ```curl http://${IP}/writeVal.cgi?G${TH}.OPMode=1;curl http://${IP}/writeVal.cgi?G${TH}.WeekProg=1;``` |  
-| Pro 1 Holiday    | Gx.OPMode=2, Gx.WeekProg=1  | ```curl http://${IP}/writeVal.cgi?G${TH}.OPMode=2;curl http://${IP}/writeVal.cgi?G${TH}.WeekProg=1;``` |  
-| Pro 2 Day        | Gx.OPMode=0, Gx.WeekProg=2  | ```curl http://${IP}/writeVal.cgi?G${TH}.OPMode=0;curl http://${IP}/writeVal.cgi?G${TH}.WeekProg=2;``` |  
-| Pro 2 Night      | Gx.OPMode=1, Gx.WeekProg=2  | ```curl http://${IP}/writeVal.cgi?G${TH}.OPMode=1;curl http://${IP}/writeVal.cgi?G${TH}.WeekProg=2;``` |  
-| Pro 2 Holiday    | Gx.OPMode=2, Gx.WeekProg=2  | ```curl http://${IP}/writeVal.cgi?G${TH}.OPMode=2;curl http://${IP}/writeVal.cgi?G${TH}.WeekProg=2;``` |  
-| Pro 3 Day        | Gx.OPMode=0, Gx.WeekProg=3  | ```curl http://${IP}/writeVal.cgi?G${TH}.OPMode=0;curl http://${IP}/writeVal.cgi?G${TH}.WeekProg=3;``` |  
-| Pro 3 Night      | Gx.OPMode=1, Gx.WeekProg=3  | ```curl http://${IP}/writeVal.cgi?G${TH}.OPMode=1;curl http://${IP}/writeVal.cgi?G${TH}.WeekProg=3;``` |  
-| Pro 3 Holiday    | Gx.OPMode=2, Gx.WeekProg=3  | ```curl http://${IP}/writeVal.cgi?G${TH}.OPMode=2;curl http://${IP}/writeVal.cgi?G${TH}.WeekProg=3;``` |  
+| Day              | Gx.OPMode=0, Gx.WeekProg=0  | ```curl ${URL}/writeVal.cgi?G${TH}.OPMode=0;curl ${URL}/writeVal.cgi?G${TH}.WeekProg=0;``` |  
+| Night            | Gx.OPMode=1, Gx.WeekProg=0  | ```curl ${URL}/writeVal.cgi?G${TH}.OPMode=1;curl ${URL}/writeVal.cgi?G${TH}.WeekProg=0;``` |  
+| Holiday          | Gx.OPMode=2, Gx.WeekProg=0  | ```curl ${URL}/writeVal.cgi?G${TH}.OPMode=2;curl ${URL}/writeVal.cgi?G${TH}.WeekProg=0;``` |  
+| Pro 1 Day        | Gx.OPMode=0, Gx.WeekProg=1  | ```curl ${URL}/writeVal.cgi?G${TH}.OPMode=0;curl ${URL}/writeVal.cgi?G${TH}.WeekProg=1;``` |  
+| Pro 1 Night      | Gx.OPMode=1, Gx.WeekProg=1  | ```curl ${URL}/writeVal.cgi?G${TH}.OPMode=1;curl ${URL}/writeVal.cgi?G${TH}.WeekProg=1;``` |  
+| Pro 1 Holiday    | Gx.OPMode=2, Gx.WeekProg=1  | ```curl ${URL}/writeVal.cgi?G${TH}.OPMode=2;curl ${URL}/writeVal.cgi?G${TH}.WeekProg=1;``` |  
+| Pro 2 Day        | Gx.OPMode=0, Gx.WeekProg=2  | ```curl ${URL}/writeVal.cgi?G${TH}.OPMode=0;curl ${URL}/writeVal.cgi?G${TH}.WeekProg=2;``` |  
+| Pro 2 Night      | Gx.OPMode=1, Gx.WeekProg=2  | ```curl ${URL}/writeVal.cgi?G${TH}.OPMode=1;curl ${URL}/writeVal.cgi?G${TH}.WeekProg=2;``` |  
+| Pro 2 Holiday    | Gx.OPMode=2, Gx.WeekProg=2  | ```curl ${URL}/writeVal.cgi?G${TH}.OPMode=2;curl ${URL}/writeVal.cgi?G${TH}.WeekProg=2;``` |  
+| Pro 3 Day        | Gx.OPMode=0, Gx.WeekProg=3  | ```curl ${URL}/writeVal.cgi?G${TH}.OPMode=0;curl ${URL}/writeVal.cgi?G${TH}.WeekProg=3;``` |  
+| Pro 3 Night      | Gx.OPMode=1, Gx.WeekProg=3  | ```curl ${URL}/writeVal.cgi?G${TH}.OPMode=1;curl ${URL}/writeVal.cgi?G${TH}.WeekProg=3;``` |  
+| Pro 3 Holiday    | Gx.OPMode=2, Gx.WeekProg=3  | ```curl ${URL}/writeVal.cgi?G${TH}.OPMode=2;curl ${URL}/writeVal.cgi?G${TH}.WeekProg=3;``` |  
 
 ### Examples
 
 | Purpose | cmdline |  
 | ---     | --- |  
-| Read current date/time | ```curl http://${IP}/cgi-bin/readVal.cgi?R0.DateTime``` |  
-| Set Date/Time | ```curl curl http://${IP}/cgi-bin/writeVal.cgi?R0.DateTime=$(date +%s)``` |  
-| Set name of thermostat 0 | ```curl curl http://${IP}/cgi-bin/writeVal.cgi?G0.name=My_Thermostat``` |  
-| Set Temp of thermostat 0 to 20.54 C | ```curl curl http://${IP}/cgi-bin/writeVal.cgi?G0.SollTemp=2054``` |  
-| Read Temp of thermostat 0 | ```curl curl http://${IP}/cgi-bin/readVal.cgi?G0.SollTemp``` |  
-| Set thermostat 0 mode to night | ```curl curl http://${IP}/cgi-bin/writeVal.cgi?G0.OPMode=1``` |  
+| Read current date/time | ```curl ${URL}/readVal.cgi?R0.DateTime``` |  
+| Set Date/Time | ```curl ${URL}/writeVal.cgi?R0.DateTime=$(date +%s)``` |  
+| Set name of thermostat 0 | ```curl ${URL}/writeVal.cgi?G0.name=My_Thermostat``` |  
+| Set Temp of thermostat 0 to 20.54 C | ```curl ${URL}/cgi-bin/writeVal.cgi?G0.SollTemp=2054``` |  
+| Read Temp of thermostat 0 | ```curl ${URL}/readVal.cgi?G0.SollTemp``` |  
+| Set thermostat 0 mode to night | ```curl ${URL}/writeVal.cgi?G0.OPMode=1``` |  
+| Program 1 Day mode | ```curl ${URL}/writeVal.cgi?G${TH}.OPMode=0;curl ${URL}/writeVal.cgi?G${TH}.WeekProg=1;``` |  
+
 
 ### Locating API endpoints
 The easiest way to find the API endpoints for the older controllers, not the SL version, is to download the firmware, unpack it and examine the file "Roth.tcr".  

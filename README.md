@@ -63,7 +63,7 @@ These parameters can be updated using the writeVal.cgi?variable=value
 e.g.  
       http://xxx.xxx.xxx.xxx/writeVal.cgi?variable=value  
 
-Gx indicates the thermostat index (0 to totalNumberofDevices-1)  
+x indicates the thermostat index (0 to totalNumberofDevices-1) e.g. G0  
 
 | Variable               | Values            | Description |  
 | ---                    | ---               | --- | 
@@ -73,11 +73,39 @@ Gx indicates the thermostat index (0 to totalNumberofDevices-1)
 | Gx.SollTempMaxVal      | 2600              | Max temperature allowed for SollTemp, 26.00 |  
 | Gx.SollTempMinVal      | 1600              | Min temperature allowed for SollTemp, 16.00 |  
 | Gx.TempSIUnit          | 0                 | Temperature scale, 0=C, 1=F |  
-| Gx.WeekProgEna         | 1                 | Weekly mode enabled |  
 | Gx.OPMode              | 0-2               | Operation Mode: 0=Normal, 1=Night, 2=Vacation |  
+| Gx.WeekProg            | 1-3               | Weekly Program |  
 | Gx.OPModeEna           | 0-1               | Thermostat enabled (1) or disabled (0) |  
+| Gx.WeekProgEna         | 1                 | Weekly program mode enabled |  
 | Gx.kurzID              | 1                 | ??? Same for all thermostats |  
 | Gx.ownerKurzID         | 69                | ??? Same for all thermostats |  
+
+#### Modes
+
+Each thermostat has 3 OPModes (Normal, Night, Vacation) and 3 Weekly programs (Pro 1, Pro 2, Pro 3). These
+
+For the purposes of illustration the examples use environment variables. Before use set the following:  
+
+```
+# Set these variable 
+IP=192.168.x.x      # The IP of your controller
+TH=0                # Thermostat number (0-35)
+```
+
+| Mode             | Values                      | Example |  
+| ---              | ---                         | --- | 
+| Day              | Gx.OPMode=0, Gx.WeekProg=0  | 		```curl http://${IP}/writeVal.cgi?G${TH}.OPMOde=0;curl http://${IP}/writeVal.cgi?G${TH}.WeekProg=0; ``` |  
+| Night            | Gx.OPMode=1, Gx.WeekProg=0  | 		```curl http://${IP}/writeVal.cgi?G${TH}.OPMOde=1;curl http://${IP}/writeVal.cgi?G${TH}.WeekProg=0; ``` |  
+| Holiday          | Gx.OPMode=2, Gx.WeekProg=0  | 		```curl http://${IP}/writeVal.cgi?G${TH}.OPMOde=2;curl http://${IP}/writeVal.cgi?G${TH}.WeekProg=0; ``` |  
+| Pro 1 Day        | Gx.OPMode=0, Gx.WeekProg=1  | 		```curl http://${IP}/writeVal.cgi?G${TH}.OPMOde=0;curl http://${IP}/writeVal.cgi?G${TH}.WeekProg=1; ``` |  
+| Pro 1 Night      | Gx.OPMode=1, Gx.WeekProg=1  | 		```curl http://${IP}/writeVal.cgi?G${TH}.OPMOde=1;curl http://${IP}/writeVal.cgi?G${TH}.WeekProg=1; ``` |  
+| Pro 1 Holiday    | Gx.OPMode=2, Gx.WeekProg=1  | 		```curl http://${IP}/writeVal.cgi?G${TH}.OPMOde=2;curl http://${IP}/writeVal.cgi?G${TH}.WeekProg=1; ``` |  
+| Pro 2 Day        | Gx.OPMode=0, Gx.WeekProg=2  | 		```curl http://${IP}/writeVal.cgi?G${TH}.OPMOde=0;curl http://${IP}/writeVal.cgi?G${TH}.WeekProg=2; ``` |  
+| Pro 2 Night      | Gx.OPMode=1, Gx.WeekProg=2  | 		```curl http://${IP}/writeVal.cgi?G${TH}.OPMOde=1;curl http://${IP}/writeVal.cgi?G${TH}.WeekProg=2; ``` |  
+| Pro 2 Holiday    | Gx.OPMode=2, Gx.WeekProg=2  | 		```curl http://${IP}/writeVal.cgi?G${TH}.OPMOde=2;curl http://${IP}/writeVal.cgi?G${TH}.WeekProg=2; ``` |  
+| Pro 3 Day        | Gx.OPMode=0, Gx.WeekProg=3  | 		```curl http://${IP}/writeVal.cgi?G${TH}.OPMOde=0;curl http://${IP}/writeVal.cgi?G${TH}.WeekProg=3; ``` |  
+| Pro 3 Night      | Gx.OPMode=1, Gx.WeekProg=3  | 		```curl http://${IP}/writeVal.cgi?G${TH}.OPMOde=1;curl http://${IP}/writeVal.cgi?G${TH}.WeekProg=3; ``` |  
+| Pro 3 Holiday    | Gx.OPMode=2, Gx.WeekProg=3  | 		```curl http://${IP}/writeVal.cgi?G${TH}.OPMOde=2;curl http://${IP}/writeVal.cgi?G${TH}.WeekProg=3; ``` |  
 
 ### Examples
 

@@ -4,7 +4,7 @@
 ### Background
 Roth make a series of "Touchline" controllers for under floor heating systems, the older versions (pre 2021), only support a wired ethernet control port, newer versions support wireless. These are coupled with wireless (not WiFI) thermostats for control, each controller can attach upto 36 thermostats. As each controller can support upto 8 circuits, the design allows the controllers to be cascaded to add extra circuits, using a single Master with multiple slaves units. By default each controller is a slave, to activate the Master you have to press the "Master" button on the controller.  
 
-The older versions have a web interface based on a java jnlp, which unfortunately does not work on modern browsers as the Java web launch feature has been removed. For those with Android or IoS devices a Touchline application exists to allow you to set the thermostats remotely. 
+The older versions have a web interface based on a java module, which unfortunately does not work on modern browsers as the Java web launch feature has been removed. For those with Android or IoS devices a Touchline application exists to allow you to set the thermostats remotely. 
 
 ![Touchline BL](https://www.roth-uk.com/fileadmin/user_upload/Roth_North_Europe/Images_for_Roth_North_Europe/Danmark/Produkter_images/Touchline/Touchline_kontrol_enhed_uden_LAN.jpg "Roth Touchline PL")&nbsp;![Touchline Network Module](https://www.roth-uk.com/fileadmin/user_upload/Roth_North_Europe/Images_for_Roth_North_Europe/Danmark/Produkter_images/Touchline/Touchline_stregtegning_382x79.jpg "LAN Module")
 

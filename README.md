@@ -1,22 +1,22 @@
-# Roth Touchline Heating controller
+# Roth Touchline Heating controller API
 
 
 ### Background
-Roth make a series of controllers for under floor heating systems, the older versions (pre 2021), only support a wired ethernet control port, newer versions support wireless. These are coupled with wireless (not WiFI) thermostats for control, each controller can have multiple thermostats (one per room).  The older versions have a web interface based on a java jnlp, which unfortunately does not work on modern browsers as the Java web launch feature has been removed. For those with Android or IoS devices a Touchline application exists to allow you to set the thermostats remotely. My challenge was to integrate this heating controller into my home assistant environment.
+Roth make a series of "Touchline" controllers for under floor heating systems, the older versions (pre 2021), only support a wired ethernet control port, newer versions support wireless. These are coupled with wireless (not WiFI) thermostats for control, each controller can attach upto 36 thermostats. As each controller can support upto 8 circuits, the design allows the controllers to be cascaded to add extra circuits, using a single Master with multiple slaves units. By default each controller is a slave, to activate the Master you have to press the "Master" button on the controller.  
 
-![alt text](https://www.roth-uk.com/fileadmin/user_upload/Roth_North_Europe/Images_for_Roth_North_Europe/Danmark/Produkter_images/Touchline/Touchline_kontrol_enhed_uden_LAN.jpg "Roth Touchline PL")&nbsp;![alt text](https://www.roth-uk.com/fileadmin/user_upload/Roth_North_Europe/Images_for_Roth_North_Europe/Danmark/Produkter_images/Touchline/Touchline_stregtegning_382x79.jpg "LAN Module")
+The older versions have a web interface based on a java jnlp, which unfortunately does not work on modern browsers as the Java web launch feature has been removed. For those with Android or IoS devices a Touchline application exists to allow you to set the thermostats remotely. 
 
-### Network
-To connect the wired-only Roth controller I used a Vonets VAR11N_300 Wireless/Ethernet bridge, which is a matchbox sized device. The ethernet side is connected to the ethernet port of the touchline and the wireless is configured to connect to the (IoT) WiFi SSID.
+![Touchline BL](https://www.roth-uk.com/fileadmin/user_upload/Roth_North_Europe/Images_for_Roth_North_Europe/Danmark/Produkter_images/Touchline/Touchline_kontrol_enhed_uden_LAN.jpg "Roth Touchline PL")&nbsp;![Touchline Network Module](https://www.roth-uk.com/fileadmin/user_upload/Roth_North_Europe/Images_for_Roth_North_Europe/Danmark/Produkter_images/Touchline/Touchline_stregtegning_382x79.jpg "LAN Module")
+
+### Networking
+To connect the wired-only Roth controller to my network I used a Vonets [VAR11N_300 Wireless/Ethernet bridge](https://www.vonets.com/ProductViews.asp?D_ID=17 "VAR11N_300 Wireless/Ethernet bridge"). The ethernet side is connected to the ethernet port of the touchline and the wireless is configured to connect to the (IoT?) WiFi SSID of your network. Other connection options are shown on page 42 of the [Manual](https://www.roth-benelux.com/fr/files/005%20-%20Roth-Belgium/Touchline_Manual__2013_04_EN.pdf). You may have to change the default IP address of the touchline controller. If there are multiple controllers you need to designate one as a master by pressing the "Master" button, the network connection is only needed on the designated master.
 
 
 ### API Interface
-Data from the controller can be accessed using the web interface endpoints readVal.cgi and writeVal.cgi. e.g.  
+Data from the controller can be accessed using the web interface call points readVal.cgi and writeVal.cgi. e.g.  
 
 Read  Value: http://xxx.xxx.xxx.xxx/cgi-bin/readVal.cgi?variable  
 Write Value: http://xxx.xxx.xxx.xxx/cgi-bin/writeVal.cgi?variable=value  
-  
-IP address: xxx.xxx.xxx.xxx  
   
 ### Device Parameters  
 
@@ -124,14 +124,14 @@ printf "%-10s:\t" "OPMode";curl ${URL}/readVal.cgi?G${TH}.OPMode;printf "\n%-10s
 | Program 1 Day mode | ```curl ${URL}/writeVal.cgi?G${TH}.OPMode=0;curl ${URL}/writeVal.cgi?G${TH}.WeekProg=1;``` |  
 
 
-### Locating API endpoints
-The easiest way to find the API endpoints for the older controllers, not the SL version, is to download the firmware, unpack it and examine the file "Roth.tcr".  
+### Locating API Variables and call points  
+The easiest way to find the API variables for the older controllers, not the SL version, is to download the firmware, unpack it and examine the file "Roth.tcr".  
 
 ![alt text](https://www.roth-uk.com/fileadmin/user_upload/Roth_North_Europe/Images_for_Roth_North_Europe/UK/Images/Support/Firmware/Kompatibilitetsskema_Touchline_firmware_alle_sprog_20191007_UK_v2.jpg "Touchline controllers")
 
 Source: https://www.roth-uk.com/support/software-and-firmware-updates  
 
-The "Roth.tcr" file contains a list of the (potential) API calls that can be used with readVal.cgi and writeVal.cgi calls. Not all of these are implemented in the Touchline build and the unimplemented ones return a 404 error when called.  
+The "Roth.tcr" file contains a list of the (potential) API calls that can be used with readVal.cgi and writeVal.cgi calls. Not all of these are implemented in the Touchline build and the unimplemented ones return a 404 error or zero length response.  
 
 ```
 CD.reset;CD.reset; ; ; ; ; ; ; ; ; ;
@@ -162,9 +162,64 @@ R0.numberOfPairedDevices;R0.numberOfPairedDevices; ; ; ; ; ; ; ; ; ;
 ```
 Note: the '+#COFF_devicePageOffset#' translates into the index of the thermostat e.g. if there are 5 thermostats, the devicePageOffset is from 0-4  
 
+#### API Call points
+Finding the possible API call points (/cgi-bin) requires analysis of the Firmware files, specifically the Java applet that is called when you access the web interface of the controller.  
+
+- Download and Unzip the firmware file into a directory  
+- find the main .jar file, which has the name IMasterx_y_z.jar e.g. ```IMaster6_21_00.jar``` (depends on the FW version)
+- Unzip the .jar e.g. ```unzip IMaster6_21_00.jar```
+- Search the files for 'cgi-bin' e.g. ```strings *.class | grep cgi-bin | sort | uniq```
+
+```
+&cgi-bin/alarm.cgi?list=0&action=config
+&cgi-bin/alarm.exe?list=0&action=config
+,cgi-bin/trend.cgi?trendsList=0&action=config
+,cgi-bin/trend.exe?trendsList=0&action=config
+/cgi-bin/GetSrvInfo.exe
+/cgi-bin/ILRReadValues.cgi
+/cgi-bin/ILRReadValues.exe
+/cgi-bin/OrderValues.exe?
+/cgi-bin/ReadFile.cgi?
+/cgi-bin/ReadFile.exe?
+/cgi-bin/readVal.cgi?
+/cgi-bin/readVal.exe?
+/cgi-bin/writeVal.cgi?
+/cgi-bin/writeVal.exe?
+4cgi-bin/trend.cgi?trendsList=0&action=reinitTrending
+4cgi-bin/trend.exe?trendsList=0&action=reinitTrending
+6cgi-bin/trend.cgi?trendsList=0&action=clearTrdLogFiles
+6cgi-bin/trend.exe?trendsList=0&action=clearTrdLogFiles
+cgi-bin/alarm.cgi?list=
+cgi-bin/alarm.exe?list=
+cgi-bin/trend.cgi?trendNr=
+cgi-bin/trend.exe?trendNr=
+```  
+Note: On the 6_21_0 firmware The list included references to 'trendingAlarming.dll', which is not present in any of the sources.
+
+Not all of these call points are implemented in the Touchline build and the unimplemented ones return either a 404 error or zero length response.  
+
+| Call point                 | Status    | Description       |  
+| ---                        | ---       | ---               |  
+| /cgi-bin/readVal.cgi       | OK        | Read Value        |  
+| /cgi-bin/writeVal.cgi      | OK        | Write Value       |  
+| /cgi-bin/GetSrvInfo.exe    | OK        | Embedded web server info  |  
+|                            |           |                   |  
+| /cgi-bin/alarm.cgi         | 404       | Not found         |  
+| /cgi-bin/alarm.exe         | 404       | Not found         |  
+| /cgi-bin/ILRReadValues.exe | 404       | Not found         |  
+| /cgi-bin/ILRReadValues.cgi | Blank     | Response but no content |  
+| /cgi-bin/OrderValues.exe   | 404       | Not found         |  
+| /cgi-bin/ReadFile.cgi      | 404       | Not found         |  
+| /cgi-bin/ReadFile.exe      | 404       | Not found         |  
+| /cgi-bin/readVal.exe       | 404       | Not found         |  
+| /cgi-bin/trend.cgi         | 404       | Not found         |  
+| /cgi-bin/trend.exe         | 404       | Not found         |  
+| /cgi-bin/writeVal.exe      | 404       | Not found         |  
+
+
 
 ### API Script
-For convenience the API calls are encapsulated in the bash script 'rothread.sh' that 
+For convenience the API calls have been encapsulated in the bash script 'rothread.sh' that:
 - Allows entry of temperatures in decimal x.y format i.e. 18.54 instead of 1854
 - Implements a status print of all variables
 - Logs the output to files in /var/tmp
@@ -179,7 +234,7 @@ For convenience the API calls are encapsulated in the bash script 'rothread.sh' 
 | ```rothread.sh -w R0.Datetime=$(date +%s)``` | Set controller Date/Time to current on Linux |  
 
 ### Roth Touchline SL API
-The firmware file format for the newer Touchline SL controllers has a different format to the older Touchline BL/PL controllers. The file appears to be encoded and does not reveal anything about the internal contents.  
+The firmware file for the newer Touchline SL controllers has a different format to the older Touchline BL/PL controllers. The file appears to be encoded and does not reveal anything about the internal contents.  
 
 I have not tested this script against the newer Touchline SL; if you have one of these controllers please let me know your results.
 
@@ -187,9 +242,9 @@ I have not tested this script against the newer Touchline SL; if you have one of
 
 
 ### How does the Roth Application find the Controller?
-The Roth IoS/Android application does not request the IP address of the controller, so how does it find it?  
+The Roth IoS/Android application does not request the IP address of the master controller, so how does it find it?  
 
-Step 1: The client app sends a UDP broadcast (255.255.255.255) to port 5000 (upnp) contained the payload "SEARCH R*\r\n":  
+Step 1: The client app sends a UDP unicast broadcast (255.255.255.255) to port 5000 (upnp) contained the payload "SEARCH R*\r\n":  
 ```
 0000  ff ff ff ff ff ff 28 8f f6 65 d4 cd 08 00 45 00   ......(..e....E.  
 0010  00 28 ca 53 00 00 40 11 ea 41 c0 a8 05 88 ff ff   .(.S..@..A......  
@@ -197,16 +252,16 @@ Step 1: The client app sends a UDP broadcast (255.255.255.255) to port 5000 (upn
 0030  20 52 2a 0d 0a 00 00 00 00 00 00 00                R*.........
 ```
 
-Step 2: The Roth controller responds with a UDP broadcast from port 5000 to the client port identified in the previous step:  
+Step 2: The Roth controller responds with a UDP unicast broadcast from port 5000 to the client port identified in the previous step:  
 ```
 0000  ff ff ff ff ff ff 00 17 13 3b a3 09 08 00 45 00   .........;....E.
 0010  00 bc 08 59 00 00 80 11 6c 1d c0 a8 05 13 ff ff   ...Y....l.......
 0020  ff ff 13 88 d1 7f 00 a8 12 4d 52 31 30 30 00 a0   .........MR100..
-0030  00 45 00 20 00 00 c0 a8 05 13 c0 a8 05 05 ff ff   .E. ............
-0040  ff 00 c0 a8 05 01 c0 a8 05 2c 5c c2 13 00 d8 18   .........,\.....
+0030  00 45 00 20 00 00 c0 a8 07 19 c0 a8 07 01 ff ff   .E. ............
+0040  ff 00 c0 a8 07 01 c0 a8 05 2c 5c c2 13 00 d8 18   .........,\.....
 0050  00 00 00 00 00 00 00 00 00 00 52 4f 54 48 2d 46   ..........ROTH-F
 0060  46 44 38 31 38 00 00 00 00 00 00 00 00 00 68 74   FD818.........ht
-0070  74 70 3a 2f 2f 31 39 32 2e 31 36 38 2e 35 2e 31   tp://192.168.5.1
+0070  74 70 3a 2f 2f 31 39 32 2e 31 36 38 2e 35 2e 31   tp://192.168.7.1
 0080  39 2f 00 00 00 00 00 00 00 00 00 00 00 00 00 00   9/..............
 0090  00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00   ................
 00a0  00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00   ................
@@ -214,14 +269,14 @@ Step 2: The Roth controller responds with a UDP broadcast from port 5000 to the 
 00c0  71 06 49 89 49 53 18 46 02 87                     q.I.IS.F..
 
 ```
-Step 3: The payload part of this contains the name of the controller (ROTH-FFD918) and the IP (192.168.5.19 / C0 A8 05 13 at offset 0x36), it uses this to connect. The service URL is specified here as http://192.168.5.19 (this version does not use SSL).  
+Step 3: The payload part of this contains the name of the controller (ROTH-FFD918) and the IP (192.168.7.19 / C0 A8 07 13 at offset 0x36), it uses this to connect. The service URL is specified here as http://192.168.7.19 (this version of the FW does not use SSL).  
 ```
 0020                                 52 31 30 30 00 a0             R100..
-0030   00 45 00 20 00 00 c0 a8 05 13 c0 a8 05 05 ff ff   .E. ............
-0040   ff 00 c0 a8 05 01 c0 a8 05 2c 5c c2 13 00 d8 18   .........,\.....
+0030   00 45 00 20 00 00 c0 a8 07 19 c0 a8 07 01 ff ff   .E. ............
+0040   ff 00 c0 a8 07 01 c0 a8 05 2c 5c c2 13 00 d8 18   .........,\.....
 0050   00 00 00 00 00 00 00 00 00 00 52 4f 54 48 2d 46   ..........ROTH-F
 0060   46 44 38 31 38 00 00 00 00 00 00 00 00 00 68 74   FD818.........ht
-0070   74 70 3a 2f 2f 31 39 32 2e 31 36 38 2e 35 2e 31   tp://192.168.5.1
+0070   74 70 3a 2f 2f 31 39 32 2e 31 36 38 2e 35 2e 31   tp://192.168.7.1
 0080   39 2f 00 00 00 00 00 00 00 00 00 00 00 00 00 00   9/..............
 0090   00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00   ................
 00a0   00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00   ................
@@ -229,8 +284,11 @@ Step 3: The payload part of this contains the name of the controller (ROTH-FFD91
 00c0   71 06 49 89 49 53 18 46 02 87                     q.I.IS.F..
 ```
 
-Caveat: This method of discovery by the application only works when you are directly connected to the local network. It does not work via a VPN connection as these usually filter broadcast traffic.  
+Caveat: This method of discovery by the application only works when you are directly connected to the same broadcast domain. It does not work over a routed network or via a VPN connection, as these filter broadcast traffic.  
 
 ### Documentation
 - [Touchline PL manual](https://www.roth-benelux.com/fr/files/005%20-%20Roth-Belgium/Touchline_Manual__2013_04_EN.pdf "Touchline PL Controller manual")
 - [Touchline EnergyLogic Thermostat](https://www.roth-danmark.dk/fileadmin/user_upload/Roth_North_Europe/Images_for_Roth_North_Europe/Danmark/pdf/Danmark/Produkter/Udgaaet_produkter/Installation_Roth_Touchline_Room_Thermostat__230V.pdf)
+- [VAR11N_300 Wireless/Ethernet bridge](https://www.vonets.com/ProductViews.asp?D_ID=17 "VAR11N_300 Wireless/Ethernet bridge")
+
+
